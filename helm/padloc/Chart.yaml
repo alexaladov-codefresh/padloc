@@ -1,0 +1,4 @@
+apiVersion: v2
+name: padloc
+description: A Helm chart for Padloc
+version: 0.2.0
