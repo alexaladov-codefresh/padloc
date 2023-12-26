@@ -1,0 +1,33 @@
+{{- if not .Values.dataVolume.storageClassName }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ include "padloc.dataVolumeName" . }}
+  labels:
+    type: local
+spec:
+  capacity:
+    storage: {{ .Values.dataVolume.storageSize }}
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: manual
+  hostPath:
+    path: "{{ tpl .Values.dataVolume.hostPath . }}"
+{{- end }}
+---
+{{- if not .Values.attachmentsVolume.storageClassName }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ include "padloc.attachmentsVolumeName" . }}
+  labels:
+    type: local
+spec:
+  capacity:
+    storage: {{ .Values.attachmentsVolume.storageSize }}
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: manual
+  hostPath:
+    path: "{{ tpl .Values.attachmentsVolume.hostPath . }}"
+{{- end }}
