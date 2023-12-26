@@ -1,0 +1,39 @@
+
+nameOverride: ""
+fullnameOverride: ""
+
+server:
+  image: padloc/server
+  data:
+    backend: leveldb
+    leveldbDir: /data
+    attachmentsBackend: fs
+    attachmentsDir: /attachments
+    emailBackend: console
+  port: 3000
+  volumes:
+    attachments:
+      mountPath: /attachments
+    data: 
+      mountPath: /data
+  restartPolicy: Always
+
+pwa:
+  image: padloc/pwa
+  port: 8080
+  restartPolicy: Always
+
+dataVolume:
+  storageClassName: ""  # storageClassName optional
+  storageSize: 1Gi
+  hostPath: "{{ .Values.server.volumes.data.mountPath }}"  # 
+
+attachmentsVolume:
+  storageClassName: ""  # storageClassName optional
+  storageSize: 1Gi
+  hostPath: "{{ .Values.server.volumes.attachments.mountPath }}"  # 
+
+ingress:
+  enabled: true
+  ingressClass: nginx
+  host: example.com  # Set your desired Ingress host if enabled
